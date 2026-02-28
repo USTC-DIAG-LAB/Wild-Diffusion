@@ -46,7 +46,7 @@ def parse_int_list(s):
 @click.option('--data',          help='Path to the dataset', metavar='ZIP|DIR',                     type=str, required=True)
 @click.option('--cond',          help='Train class-conditional model', metavar='BOOL',              type=bool, default=False, show_default=True)
 @click.option('--arch',          help='Network architecture', metavar='ddpmpp|ncsnpp|adm',          type=click.Choice(['ddpmpp', 'ncsnpp', 'adm']), default='ddpmpp', show_default=True)
-@click.option('--precond',       help='Preconditioning & loss function', metavar='vp|ve|edm|advedm',       type=click.Choice(['vp', 've', 'edm', 'advedm']), default='advedm', show_default=True)
+@click.option('--precond',       help='Preconditioning & loss function', metavar='wdroedm|advedm',       type=click.Choice(['wdroedm', 'advedm']), default='wdroedm', show_default=True)
 
 # Hyperparameters.
 @click.option('--duration',      help='Training duration', metavar='MIMG',                          type=click.FloatRange(min=0, min_open=True), default=200, show_default=True)
@@ -125,19 +125,13 @@ def main(**kwargs):
         c.network_kwargs.update(model_type='DhariwalUNet', model_channels=192, channel_mult=[1,2,3,4])
 
     # Preconditioning & loss function.
-    if opts.precond == 'vp':
-        c.network_kwargs.class_name = 'training.networks.VPPrecond'
-        c.loss_kwargs.class_name = 'training.loss.VPLoss'
-    elif opts.precond == 've':
-        c.network_kwargs.class_name = 'training.networks.VEPrecond'
-        c.loss_kwargs.class_name = 'training.loss.VELoss'
-    elif opts.precond == 'advedm':
+    if opts.precond == 'advedm':
         c.network_kwargs.class_name = 'training.networks.EDMPrecond'
         c.loss_kwargs.class_name = 'training.loss.EDMLossAdv'
     else:
         assert opts.precond == 'edm'
         c.network_kwargs.class_name = 'training.networks.EDMPrecond'
-        c.loss_kwargs.class_name = 'training.loss.EDMLoss'
+        c.loss_kwargs.class_name = 'training.loss.EDMLossWdro'
 
     # Network options.
     if opts.cbase is not None:
