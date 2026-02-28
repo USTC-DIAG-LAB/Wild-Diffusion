@@ -129,7 +129,7 @@ def main(**kwargs):
         c.network_kwargs.class_name = 'training.networks.EDMPrecond'
         c.loss_kwargs.class_name = 'training.loss.EDMLossAdv'
     else:
-        assert opts.precond == 'edm'
+        assert opts.precond == 'wdroedm'
         c.network_kwargs.class_name = 'training.networks.EDMPrecond'
         c.loss_kwargs.class_name = 'training.loss.EDMLossWdro'
 
