@@ -120,8 +120,8 @@ def training_loop(
     dist.update_progress(cur_nimg // 1000, total_kimg)
     stats_jsonl = None
 
-    wdro_start_kimg = 50                 
-    # wdro_start_kimg = int(0.4*total_kimg)         
+    # wdro_start_kimg = 50                 
+    wdro_start_kimg = int(0.4*total_kimg)         
     if run_dir is None:
         run_dir = '.'
     wdro_dataset_path = os.path.join(run_dir, 'combined_dataset.pt')
