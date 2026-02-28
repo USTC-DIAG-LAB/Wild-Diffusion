@@ -129,8 +129,10 @@ def training_loop(
 
 
     wdro_interval_kimg = int(100*len(dataset_obj)/1000)  
-    next_wdro_kimg = wdro_start_kimg  
-
+    next_wdro_kimg = wdro_start_kimg
+    n = len(dataset_obj)
+    p_now = 0.12 if n >= 40000 else (0.15 if n >= 20000 else 0.18)
+    augment_pipe.p = p_now
 
     while True:
         if cur_nimg >= next_wdro_kimg * 1000:
